@@ -154,28 +154,41 @@ class HomergyRepositories
 
         foreach($check as $result):
             $result->socket_name .= " (DELETED)";
+            $result->socket_code .= " (DELETED)";
             $result->save();
             $result->delete();
         endforeach;
 
         for($x = 0; $x < count($data['id']); $x++):
             $socket_id = $data['id'][$x];
-            $socket_name = $data['system'][$x];
+            $socket_name = $data['socket_name'][$x];
+            $socket_code = $data['system'][$x];
             $current_kwh = 0;
 
             if($socket_id == 0):
-                self::addDeviceSocket($socket_name, $current_kwh, $device_id);
+                self::addDeviceSocket($socket_code, $socket_name, $current_kwh, $device_id);
             else:
+                $socket = self::fetchDeviceSocketViaId($socket_id);
 
+                if($socket != ""):
+                    $socket->socket_name = $socket_name;
+                    $socket->socket_code = $socket_code;
+                    $socket->save();
+                endif; 
             endif;
         endfor;
     }
 
-    public static function addDeviceSocket($socket_name, $current_kwh, $device_id){
+    public static function fetchDeviceSocketViaId($socket_id){
+        return DeviceSocket::where('id', $socket_id)->first();
+    }
+
+    public static function addDeviceSocket($socket_code, $socket_name, $current_kwh, $device_id){
 
         return DeviceSocket::create([
             'device_id' => $device_id,
             'socket_name' => $socket_name,
+            'socket_code' => $socket_code,
             'current_kwh' => $current_kwh,
             'created_by' => Auth::user()->id,
             ]);
@@ -188,6 +201,7 @@ class HomergyRepositories
     }
 
     public static function updateDevice($data, $id){
+
         $check = self::fetchDeviceViaId($id);
 
         if($check != ""):

@@ -24,7 +24,7 @@ class DeviceController extends Controller
         $access = array_flip(explode(",", $user_group->access));
         $editable = array_flip(explode(",", $user_group->editable));
 
-        if(!isset($access[7])):
+        if(!isset($access[6])):
             return redirect('/');
         endif;
 
@@ -44,7 +44,7 @@ class DeviceController extends Controller
         $access = array_flip(explode(",", $user_group->access));
         $editable = array_flip(explode(",", $user_group->editable));
 
-        if(!isset($editable[7])):
+        if(!isset($editable[6])):
             return redirect('/device');
         endif;
 
@@ -103,7 +103,7 @@ class DeviceController extends Controller
         $access = array_flip(explode(",", $user_group->access));
         $editable = array_flip(explode(",", $user_group->editable));
 
-        if(!isset($editable[7])):
+        if(!isset($editable[6])):
             return redirect('/device');
         endif;
 
@@ -182,7 +182,7 @@ class DeviceController extends Controller
         $access = array_flip(explode(",", $user_group->access));
         $editable = array_flip(explode(",", $user_group->editable));
 
-        if(!isset($access[7])):
+        if(!isset($access[6])):
             $res = array('data'=>$data);
             return json_encode($res);
         endif;
@@ -198,6 +198,7 @@ class DeviceController extends Controller
             $order_view = '<table class="table table-bordered table-striped mb-none">
                 <thead
                     <tr>
+                    <th>Socket Name</th>
                     <th>Socket Code</th>
                     <th>Current KHW</th>
                     </tr>
@@ -209,6 +210,7 @@ class DeviceController extends Controller
                 $variance += $result1->current_kwh;
                 $order_view .= "<tr>
                     <td>$result1->socket_name</td>
+                    <td>$result1->socket_code</td>
                     <td>$result1->current_kwh</td>
                     </tr>";
             endforeach;
@@ -216,7 +218,7 @@ class DeviceController extends Controller
             $order_view ."</tbody></table>";
             
 
-            if(isset($editable[7])):
+            if(isset($editable[6])):
 
                 $action .= "<a style='min-width: 100px; margin-bottom: .5em; margin-left: .5em;' title='Update' type='button' class='btn btn-info' href='$link/$result->id/edit'><i class='fas fa-edit'></i> Edit</a>";
 

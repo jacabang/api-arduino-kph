@@ -15,6 +15,7 @@ class DeviceSocket extends Model
     protected $fillable = [
         'device_id',
         'socket_name',
+        'socket_code',
         'current_kwh',
         'created_by',
     ];

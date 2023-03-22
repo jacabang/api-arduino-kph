@@ -37,7 +37,7 @@ tr.shown td.details-control {
     <div class="card-body bg-light">
       <div class="tab-content">
         	<div class="form-title">
-        		@if(isset($editable[7]))
+        		@if(isset($editable[6]))
 						<a href="{{URL('/')}}/device/create" style="float: right;" class="btn btn-primary btn-flat btn-pri">
 							<i class="fa fa-plus"></i> Add
 						</a>
@@ -56,7 +56,7 @@ tr.shown td.details-control {
 				            <th>Total Current KHW</th>
 				            <th>Create Date</th>
 				            <th>Created By</th>
-				            @if(isset($editable[7]))
+				            @if(isset($editable[6]))
 				            <th>Action</th>
 				            @endif
 				        </tr>

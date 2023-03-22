@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-home"></span></span><span class="nav-link-text ps-1">Dashboard</span>
       </div>
     </a>
-    @if(isset($access[7]))
+    @if(isset($access[6]))
     <a id="deviceSideMenu" class="nav-link" href="{{URL('device')}}" role="button" aria-expanded="false">
       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-plug"></span></span><span class="nav-link-text ps-1">Devices</span>
       </div>

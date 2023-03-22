@@ -97,8 +97,9 @@
 										<table style="width:100%" class="table table-bordered table-striped mb-none" id="table_id">
 	                                        <thead>
 	                                            <tr>
+	                                                <th>Socket Name</th>
 	                                                <th>Socket Code</th>
-	                                                @if(isset($editable[7]))
+	                                                @if(isset($editable[6]))
 	                                                <th style="width: 50px; max-width: 50px; min-width: 50px;"></th>
 	                                                @endif
 	                                            </tr>
@@ -106,6 +107,7 @@
 	                                        <tbody>
 	                                        	@if($query == "")
 	                                        	<tr>
+	                                                <td><input class="form-control" type="text" placeholder="Socket Name"  title="Socket Name" value="" name="socket_name[]" required="required"></td>
 	                                                <td><input type="hidden" name="id[]" value="0"><input class="form-control" id="initialUIID" type="text" placeholder="Socket Code"  title="Socket Code" value="" name="system[]" required="required" readonly></td>
 	                                                <td style="width: 50px; max-width: 50px; min-width: 50px;"></td>
 	                                            </tr>
@@ -113,7 +115,8 @@
 	                                            <?php $x = 0; ?>
 	                                            @foreach($query->socket as $result)
 	                                            <tr>
-	                                                <td><input type="hidden" name="id[]" value="{{$result->id}}"><input class="form-control" type="text" placeholder="Socket Code"  title="Socket Code" value="{{$result->socket_name}}" name="system[]" required="required" readonly></td>
+	                                            	<td><input class="form-control" type="text" placeholder="Socket Name"  title="Socket Name" value="{{$result->socket_name}}" name="socket_name[]" required="required"></td>
+	                                                <td><input type="hidden" name="id[]" value="{{$result->id}}"><input class="form-control" type="text" placeholder="Socket Code"  title="Socket Code" value="{{$result->socket_code}}" name="system[]" required="required" readonly></td>
 	                                                <td style="width: 50px; max-width: 50px; min-width: 50px;">
 	                                                @if($x != 0)
 	                                                @if(count($result->readings) == 0)
@@ -129,10 +132,10 @@
 	                                            @endforeach
 	                                            @endif
 	                                        </tbody>
-                                        	@if(isset($editable[7]))
+                                        	@if(isset($editable[6]))
 	                                        <tfooter>
                                                 <tr>
-                                                    <td colspan="2">
+                                                    <td colspan="3">
                                                     <a id="addRow_member" style="margin-left: 1em; float: right; cursor: pointer; color: white;" class="addButton btn btn-small btn-info"><i style="color: white;" class="fas fa-plus"></i></a>
                                                       
                                                   </td>
@@ -211,6 +214,7 @@ $('#addRow_member').on( 'click', function () {
 	test = uuidv4();
 
      member_table.row.add( [
+      '<input class="form-control" id="userpleFormControlInput1" type="text" placeholder="Socket Name"  title="Socket Code" value="" name="socket_name[]" required="required">',
       '<input type="hidden" name="id[]" value="0"><input class="form-control" id="userpleFormControlInput1" type="text" placeholder="Socket Code"  title="Socket Code" value="'+test+'" name="system[]" required="required" readonly>',
       '<a style="border-radius: 5px;" title="Remove" style="" class="btn btn-danger"><i style="color: white;" class="fas fa-trash fa-1x icon-delete1"></i></a>',
       ] ).draw( false ); 
