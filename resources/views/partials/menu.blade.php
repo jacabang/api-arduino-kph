@@ -5,10 +5,28 @@
       </div>
     </a>
     @if(isset($access[6]))
-    <a id="deviceSideMenu" class="nav-link" href="{{URL('device')}}" role="button" aria-expanded="false">
-      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-plug"></span></span><span class="nav-link-text ps-1">Devices</span>
+    <a id="deviceSideMenu" class="nav-link dropdown-indicator" href="#deviceCollapseMenu" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="deviceCollapseMenu">
+      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-plug"></span></span><span class="nav-link-text ps-1">Device</span>
       </div>
     </a>
+    <ul class="nav collapse true" id="deviceCollapseMenu">
+      @if(isset($access[7]))
+      <li class="nav-item">
+        <a id="deviceListSideMenu" class="nav-link" href="{{URL('/device')}}" aria-expanded="false">
+          <div class="d-flex align-items-center"><span class="nav-link-text ps-1">List</span>
+          </div>
+        </a>
+      </li>
+      @endif
+      @if(isset($access[6]))
+      <li class="nav-item">
+        <a id="recordsSideMenu" class="nav-link" href="{{URL('/records')}}" aria-expanded="false">
+          <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Records</span>
+          </div>
+        </a>
+      </li>
+      @endif
+    </ul>
     @endif
     @if(isset($access[5]))
     <a id="webHooksSideMenu" class="nav-link" href="{{URL('myApi')}}" role="button" aria-expanded="false">

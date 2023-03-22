@@ -30,6 +30,7 @@ tr.shown td.details-control {
 		  <ol class="breadcrumb">
 		    <li class="breadcrumb-item"><a href="{{URL('newsfeed')}}"><i class="fas fa-home"></i></a></li>
 		    <li class="breadcrumb-item active" aria-current="page">Device</li>
+		    <li class="breadcrumb-item active" aria-current="page">List</li>
 		  </ol>
 		</nav>
       </div>
@@ -37,7 +38,7 @@ tr.shown td.details-control {
     <div class="card-body bg-light">
       <div class="tab-content">
         	<div class="form-title">
-        		@if(isset($editable[6]))
+        		@if(isset($editable[7]))
 						<a href="{{URL('/')}}/device/create" style="float: right;" class="btn btn-primary btn-flat btn-pri">
 							<i class="fa fa-plus"></i> Add
 						</a>
@@ -56,7 +57,7 @@ tr.shown td.details-control {
 				            <th>Total Current KHW</th>
 				            <th>Create Date</th>
 				            <th>Created By</th>
-				            @if(isset($editable[6]))
+				            @if(isset($editable[7]))
 				            <th>Action</th>
 				            @endif
 				        </tr>
@@ -74,7 +75,11 @@ tr.shown td.details-control {
 @section('page-script')
 <script>
 	$(function(){
-		$('#deviceSideMenu').addClass('active');
+		$('#deviceCollapseMenu').addClass('show'); //collapse sub menu
+		$('#deviceSideMenu').addClass('active'); //highlight parent menu
+		$("#deviceSideMenu").attr("aria-expanded","true"); //indicator 
+
+		$('#deviceListSideMenu').addClass('active');
 	});
 
 	function format ( d ) {
@@ -128,7 +133,7 @@ tr.shown td.details-control {
 	            "_token": "{{ csrf_token() }}",
 	        }
 	    },
-	    @if(isset($editable[6]))
+	    @if(isset($editable[7]))
 	    "columns": [
             {
             	"class":          "details-control",

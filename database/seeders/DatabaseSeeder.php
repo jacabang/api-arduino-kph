@@ -77,10 +77,26 @@ class DatabaseSeeder extends Seeder
             'created_at' => date("Y-m-d H:i:s")
         ]);
 
-        $access = DB::table('access')->insertGetId([
+        $access_id = DB::table('access')->insertGetId([
             'access_name' => 'Device',
             'parent_id' => NULL,
             'with_editable' => 0,
+            'created_by' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+
+        $access = DB::table('access')->insertGetId([
+            'access_name' => 'List',
+            'parent_id' => $access_id,
+            'with_editable' => 1,
+            'created_by' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+
+        $access = DB::table('access')->insertGetId([
+            'access_name' => 'Records',
+            'parent_id' => $access_id,
+            'with_editable' => 1,
             'created_by' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);

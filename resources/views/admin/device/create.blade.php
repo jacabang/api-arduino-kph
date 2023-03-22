@@ -52,6 +52,7 @@
 		  <ol class="breadcrumb">
 		    <li class="breadcrumb-item"><a href="{{URL('newsfeed')}}"><i class="fas fa-home"></i></a></li>
 		    <li class="breadcrumb-item" aria-current="page">Device</li>
+		    <li class="breadcrumb-item" aria-current="page">List</li>
 		    <li class="breadcrumb-item active" aria-current="page">{{$label}} </li>
 		  </ol>
 		</nav>
@@ -91,7 +92,7 @@
 									@endif
 									<div class="mb-3">
 										<label for="form-label">Device Name</label>
-									  	<input class="form-control" id="floatingInput" type="text" placeholder="Device" value="{{Request::old('device_name') == "" ? $device_name : Request::old('device_name')}}" name="device_name"/>
+									  	<input class="form-control" id="floatingInput" type="text" placeholder="Device" value="{{Request::old('device_name') == "" ? $device_name : Request::old('device_name')}}" name="device_name" required="required"/>
 									</div>
 									@if($device_code != "")
 									<div class="mb-3">
@@ -105,7 +106,7 @@
 	                                            <tr>
 	                                                <th>Socket Name</th>
 	                                                <th>Socket Code</th>
-	                                                @if(isset($editable[6]))
+	                                                @if(isset($editable[7]))
 	                                                <th style="width: 50px; max-width: 50px; min-width: 50px;"></th>
 	                                                @endif
 	                                            </tr>
@@ -138,7 +139,7 @@
 	                                            @endforeach
 	                                            @endif
 	                                        </tbody>
-                                        	@if(isset($editable[6]))
+                                        	@if(isset($editable[7]))
 	                                        <tfooter>
                                                 <tr>
                                                     <td colspan="3">
@@ -167,7 +168,11 @@
 <script type="text/javascript">
 	$(function(){
 
-		$('#deviceSideMenu').addClass('active');
+		$('#deviceCollapseMenu').addClass('show'); //collapse sub menu
+		$('#deviceSideMenu').addClass('active'); //highlight parent menu
+		$("#deviceSideMenu").attr("aria-expanded","true"); //indicator 
+
+		$('#deviceListSideMenu').addClass('active');
 
 		@if($query == "")
 

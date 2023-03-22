@@ -24,7 +24,7 @@ class DeviceController extends Controller
         $access = array_flip(explode(",", $user_group->access));
         $editable = array_flip(explode(",", $user_group->editable));
 
-        if(!isset($access[6])):
+        if(!isset($access[7])):
             return redirect('/');
         endif;
 
@@ -44,7 +44,7 @@ class DeviceController extends Controller
         $access = array_flip(explode(",", $user_group->access));
         $editable = array_flip(explode(",", $user_group->editable));
 
-        if(!isset($editable[6])):
+        if(!isset($editable[7])):
             return redirect('/device');
         endif;
 
@@ -103,7 +103,7 @@ class DeviceController extends Controller
         $access = array_flip(explode(",", $user_group->access));
         $editable = array_flip(explode(",", $user_group->editable));
 
-        if(!isset($editable[6])):
+        if(!isset($editable[7])):
             return redirect('/device');
         endif;
 
@@ -182,7 +182,7 @@ class DeviceController extends Controller
         $access = array_flip(explode(",", $user_group->access));
         $editable = array_flip(explode(",", $user_group->editable));
 
-        if(!isset($access[6])):
+        if(!isset($access[7])):
             $res = array('data'=>$data);
             return json_encode($res);
         endif;
@@ -218,7 +218,7 @@ class DeviceController extends Controller
             $order_view ."</tbody></table>";
             
 
-            if(isset($editable[6])):
+            if(isset($editable[7])):
 
                 $action .= "<a style='min-width: 100px; margin-bottom: .5em; margin-left: .5em;' title='Update' type='button' class='btn btn-info' href='$link/$result->id/edit'><i class='fas fa-edit'></i> Edit</a>";
 
