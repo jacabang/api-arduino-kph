@@ -1,0 +1,72 @@
+swagger: '2.0'
+info:
+# basePath: /api
+basePath: /api-arduino-kph/api #for local usage
+tags:
+  - name: API
+    description: Arduino API
+paths:
+  # /wattreading?watts={watts}&date={date}&socketID={socketID}:
+  /fetchSocket:
+    get:
+      tags:
+        - API
+      summary: Get Available Socket
+      description: 'Get Available Socket'
+      operationId: fetchSocket
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+        '400':
+            description: Bad request
+  /wattreading:
+    post:
+      tags:
+        - API
+      summary: Record a Wattage Socket
+      description: 'Get a user by ID'
+      operationId: wattreading
+      parameters: 
+        - in: query
+          name: watts
+          type: number
+          multipleOf: 0.01
+          required: true
+          description: Watts Consumption
+          schema:
+            example: 1
+        - in: query
+          name: date
+          type: string 
+          format: date
+          required: true
+          description: YYYY-MM-DD
+          schema:
+            example: "2019-05-17"
+        - in: query
+          name: socketID
+          type: string
+          required: true
+          description: Socket Code
+          schema:
+            example: 1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+        '400':
+            description: Bad request
+        '404':
+          description: Wrong Token
+# securityDefinitions:
+#   api_key:
+#     type: apiKey
+#     name: tokenizer
+#     in: header
