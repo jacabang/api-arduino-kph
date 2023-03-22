@@ -128,6 +128,7 @@ tr.shown td.details-control {
 	            "_token": "{{ csrf_token() }}",
 	        }
 	    },
+	    @if(isset($editable[6]))
 	    "columns": [
             {
             	"class":          "details-control",
@@ -150,6 +151,28 @@ tr.shown td.details-control {
             	"data": "action"
             }
         ]
+        @else
+        "columns": [
+            {
+            	"class":          "details-control",
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ""
+            },{
+            	"data": "device_name"
+            },{
+            	"data": "device_code"
+            },{
+            	"data": "count"
+            },{
+            	"data": "current_kwh"
+            },{
+            	"data": "created_at"
+            },{
+            	"data": "created_by"
+            }
+        ]
+        @endif
 	});
 
 
