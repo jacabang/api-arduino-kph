@@ -29,6 +29,10 @@ class DeviceSocket extends Model
     }
 
     public function readings(){
-        return $this->hasMany('App\Models\DeviceSocketReading', 'socket_id', 'id');    
+        return $this->hasMany('App\Models\DeviceSocketReading', 'socket_id', 'id')->orderBy('treg','DESC');    
+    }
+
+    public function reading(){
+        return $this->hasOne('App\Models\DeviceSocketReading', 'socket_id', 'id')->orderBy('treg','DESC');    
     }
 }

@@ -12,7 +12,9 @@ class WattController extends Controller
     //
 
     public function wattreading(Request $request){
-        return $request;
+        $data = Home::addSocketReading($request->all());
+
+        return json_encode($data);
     }
 
     public function fetchSocket(Request $request){

@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+
+use Carbon\Carbon;
+
 use App\Models\User as User;
 use App\Models\UserGroup as UserGroup;
 use App\Models\Device as Device;
 use App\Models\DeviceSocket as DeviceSocket;
+use App\Models\DeviceSocketReading as DeviceSocketReading;
 
 class HomergyRepositories
 {
@@ -257,6 +261,96 @@ class HomergyRepositories
             $check->editable = $editable;
             $check->save();
 
+
+        endif;
+    }
+
+    public static function checkDeviceSocketViaCode($code){
+        return DeviceSocket::with('readings')->where('socket_code', $code)->first();
+    }
+
+    public static function addSocketReading($data){
+        $check = self::checkDeviceSocketViaCode($data['socketID']);
+
+        if($check != ""):
+
+            $last_reading = 0;
+
+            if(count($check->readings) != 0):
+                $last_reading = $check->reading->kwh;
+
+                if($last_reading > $data['watts']):
+                    return array(
+                        "data" => $check,
+                        "response" => 404,
+                        "message" => "Watts Data is less than the latest record"
+                    );
+                endif;
+            endif;
+
+            //check if there is a data same date
+
+            if(count($check->readings->where('treg', $data['date'])) != 0):
+
+                foreach($check->readings->where('treg', $data['date']) as $result):
+                    return array(
+                            "data" => $result,
+                            "response" => 404,
+                            "message" => "Duplicate Date Entry"
+                        );
+
+                endforeach;
+            else:
+
+                $date1 = $check->reading->treg;
+                $date2 = $data['date'];
+
+                $sql = "SELECT TIMESTAMPDIFF(DAY, '{$date1}', '{$date2}') as apart";
+
+                $query = DB::select($sql);
+
+                foreach($query as $result1):
+                    if($result1->apart < 0):
+                        return array(
+                            "data" => $check,
+                            "response" => 404,
+                            "message" => "Date is less than the date latest record"
+                        );
+                    endif;
+                endforeach;
+
+                    // $startTime = Carbon::parse($check->reading->treg);
+                    // $finishTime = Carbon::parse($data['date']);
+
+                    // return $totalDuration = $finishTime->diffInDays($startTime);
+            endif;
+
+            $variance = $data['watts'] - $last_reading;
+
+            $reading = DeviceSocketReading::create([
+                'socket_id' => $check->id,
+                'kwh' => $data['watts'],
+                'variance_kwh' => $variance,
+                'treg' => $data['date']
+                ]);
+
+            $check->current_kwh = $data['watts'];
+            $check->save();
+
+            return array(
+                "data" => $reading,
+                "response" => 202,
+                "message" => "Successfully Add Reading"
+            );
+
+
+        else:
+
+            return array(
+                "data" => NULL,
+                "response" => 404,
+                "message" => "Socket Not Exist"
+            );
 
         endif;
     }

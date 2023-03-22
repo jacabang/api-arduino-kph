@@ -238,7 +238,7 @@ class DeviceController extends Controller
                 "oink" => "",
                 "device_name"=>$result->device_name,
                 "device_code" => $result->device_code,
-                "current_kwh"=> $result->socket->sum('current_khw'),
+                "current_kwh"=> $result->socket->sum('current_kwh'),
                 "count"=> count($result->socket),
                 "created_at"=>date("M d, Y H:i:s", strtotime($result->created_at)),
                 "created_by"=>$result->creator->fullname."<br>(". $result->creator->email.")",
