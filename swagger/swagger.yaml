@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
-# basePath: /api
-basePath: /api-arduino-kph/api #for local usage
+basePath: /api
+# basePath: /api-arduino-kph/api #for local usage
 tags:
   - name: API
     description: Arduino API
