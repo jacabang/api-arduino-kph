@@ -93,6 +93,12 @@
 										<label for="form-label">Device Name</label>
 									  	<input class="form-control" id="floatingInput" type="text" placeholder="Device" value="{{Request::old('device_name') == "" ? $device_name : Request::old('device_name')}}" name="device_name"/>
 									</div>
+									@if($device_code != "")
+									<div class="mb-3">
+										<label for="form-label">Device Code</label>
+									  	<input class="form-control" id="floatingInput" type="text" placeholder="Device Code" value="{{$device_code}}" name="device_code" readonly>
+									</div>
+									@endif
 									<div class="mb-3">
 										<table style="width:100%" class="table table-bordered table-striped mb-none" id="table_id">
 	                                        <thead>
