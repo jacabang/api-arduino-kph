@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\RecordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,5 +41,8 @@ Route::resource('/user_group', UserGroupController::class, [
 
 Route::post('/fetchDevice', [DeviceController::class,'fetchDevice']);
 Route::resource('/device', DeviceController::class);
+
+Route::post('/fetchRecord', [RecordController::class,'fetchRecord']);
+Route::resource('/records', RecordController::class);
 
 Route::get('/myApi', [DashboardController::class,'myApi']);

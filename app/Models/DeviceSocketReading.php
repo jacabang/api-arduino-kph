@@ -18,4 +18,8 @@ class DeviceSocketReading extends Model
         'variance_kwh',
         'treg'
     ];
+
+    public function socket(){
+        return $this->belongsTo('App\Models\DeviceSocket', 'socket_id', 'id');
+    }
 }

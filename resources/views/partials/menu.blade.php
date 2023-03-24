@@ -18,7 +18,7 @@
         </a>
       </li>
       @endif
-      @if(isset($access[6]))
+      @if(isset($access[8]))
       <li class="nav-item">
         <a id="recordsSideMenu" class="nav-link" href="{{URL('/records')}}" aria-expanded="false">
           <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Records</span>

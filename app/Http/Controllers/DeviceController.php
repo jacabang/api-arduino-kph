@@ -11,6 +11,20 @@ use Home;
 
 class DeviceController extends Controller
 {
+
+    public function __construct()
+    {
+        ini_set('max_execution_time', '-1');
+        ini_set('memory_limit', '-1');
+        $this->middleware('auth'); //admin
+        // $this->middleware('guest');
+
+        ini_set('post_max_size', '64M');
+        ini_set('upload_max_filesize', '64M');
+
+        date_default_timezone_set('Asia/Manila');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -201,6 +215,7 @@ class DeviceController extends Controller
                     <th>Socket Name</th>
                     <th>Socket Code</th>
                     <th>Current KHW</th>
+                    <th>Last Reading Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -208,10 +223,12 @@ class DeviceController extends Controller
 
             foreach($result->socket as $result1):
                 $variance += $result1->current_kwh;
+                $last_reading = $result1->reading != '' ? $result1->reading->treg : '';
                 $order_view .= "<tr>
                     <td>$result1->socket_name</td>
                     <td>$result1->socket_code</td>
                     <td>$result1->current_kwh</td>
+                    <td>$last_reading</td>
                     </tr>";
             endforeach;
 

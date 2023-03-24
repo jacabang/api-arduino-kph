@@ -354,14 +354,44 @@ class HomergyRepositories
 
             if(count($check->readings->where('treg', $data['date'])) != 0):
 
-                foreach($check->readings->where('treg', $data['date']) as $result):
+                if(count($check->readings->where('treg', '>', $data['date'])->where('treg', '!=', $data['date'])) != 0):
+
+                        return array(
+                            "data" => $check->reading,
+                            "response" => 404,
+                            "message" => "Has a more ahead record"
+                        );
+                endif;
+
+                if($check->reading->kwh == $data['watts']):
+
                     return array(
-                            "data" => $result,
+                            "data" => $check->reading,
                             "response" => 404,
                             "message" => "Duplicate Date Entry"
                         );
 
-                endforeach;
+                elseif($check->reading->kwh > $data['watts']):
+                    return array(
+                        "data" => $check->reading,
+                        "response" => 404,
+                        "message" => "Watts Data is less than the latest record"
+                    );
+                else:
+                    $variance = $data['watts'] - $check->reading->kwh + $check->reading->variance_kwh;
+                    $check->reading->kwh = $data['watts'];
+                    $check->reading->variance_kwh = $variance;
+                    $check->reading->save();
+                    $check->current_kwh = $data['watts'];
+                    $check->save();
+
+                    return array(
+                        "data" => $check->reading,
+                        "response" => 404,
+                        "message" => 'Reading for '.date('F d, Y', strtotime($check->reading->treg)).' has been updated'
+                    );
+                endif;
+                
             else:
 
                 if($check->reading != ""):
@@ -418,6 +448,18 @@ class HomergyRepositories
             );
 
         endif;
+    }
+
+    public static function fetchLatestReading(){
+        return DeviceSocketReading::select([DB::RAW('MAX(treg) as treg'),'socket_id'])->groupBy(['socket_id'])->get();
+    }
+
+    public static function fetchReading(){
+        return DeviceSocketReading::orderBy('treg','DESC')->get();
+    }
+
+    public static function fetchSocketRecordViaId($id){
+        return DeviceSocketReading::where('id', $id)->orderBy('treg','DESC')->first();
     }
 
 }
