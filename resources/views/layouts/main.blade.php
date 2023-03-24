@@ -570,6 +570,9 @@
     <script src="{{URL('/')}}/assets_admin_v2/vendors/choices/choices.min.js"></script>
     <script src="{{URL('/')}}/assets_admin/js/monthly.js"></script>
     <script src="{{URL('/')}}/assets_admin/js/owl/owl.carousel.min.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     @yield('page-script')
 
   </body>
