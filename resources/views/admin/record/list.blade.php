@@ -85,7 +85,7 @@ $(function(){
 	$('#deviceSideMenu').addClass('active'); //highlight parent menu
 	$("#deviceSideMenu").attr("aria-expanded","true"); //indicator 
 
-	$('#deviceListSideMenu').addClass('active');
+	$('#recordsSideMenu').addClass('active');
 
 	fetchRecords();
 });
