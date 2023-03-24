@@ -143,6 +143,12 @@ class HomergyRepositories
             ]);
     }
 
+    public static function resetPassword($id){
+        $check = self::fetchUserViaId($id);
+        $check->password = bcrypt('123qwe');
+        $check->save();
+    }
+
     public static function updateUser($data, $img_file, $id){
         $check = self::fetchUserViaId($id);
 

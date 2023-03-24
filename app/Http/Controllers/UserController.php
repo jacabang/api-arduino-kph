@@ -269,17 +269,9 @@ class UserController extends Controller
 
                 if(Auth::user()->id != $result->id):
 
-                        if(count($result->questions) 
-                            + count($result->lectures) 
-                            + count($result->classrooms) 
-                            + count($result->assigned_classrooms)
-                            == 0):
-
                             $action .="<button style='min-width: 100px; margin-bottom: .5em; margin-left: .5em;' data-id='$result->id' style='border: 1px solid #b8c7ce; style='float: right;' class='btn btn-danger btn-flat btn-pri icon-delete'>
                                 <i class='fas fa-trash'></i> Delete
                                 </button>";
-
-                        endif;
 
                         $action .="<button style='min-width: 100px; margin-bottom: .5em; margin-left: .5em;' data-id='$result->id' style='border: 1px solid #b8c7ce; style='float: right;' class='btn btn-warning btn-flat btn-pri icon-reset'>
                                 <i class='fas fa-redo'></i> Reset Password
