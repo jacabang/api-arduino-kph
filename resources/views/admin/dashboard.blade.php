@@ -176,7 +176,7 @@ function makeSeries(name, fieldName, stacked) {
   }));
 
   series.columns.template.setAll({
-    tooltipText: "{name}, {categoryX}:{valueY}",
+    tooltipText: "{name}, {categoryX} : {valueY}",
     width: am5.percent(90),
     tooltipY: am5.percent(10)
   });

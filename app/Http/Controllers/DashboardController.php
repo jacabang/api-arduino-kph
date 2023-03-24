@@ -56,7 +56,8 @@ class DashboardController extends Controller
                     {$select} 
                 FROM
                     (SELECT treg, socket_id, variance_kwh FROM socket_reading WHERE deleted_at IS NULL) as a
-                GROUP BY `year`";
+
+                GROUP BY `year` ORDER BY `year` ";
 
             $query1 = DB::select(DB::RAW($sql));
 
