@@ -47,9 +47,7 @@ tr.shown td.details-control {
 					<thead>
 				        <tr>
 				            <th>Device Name</th>
-				            <th>Device Code</th>
 				            <th>Socket Name</th>
-				            <th>Socket Code</th>
 				            <th>Date</th>
 				            <th>Kwh Consumption</th>
 				            <th>Total Khw Recorded</th>
@@ -60,8 +58,6 @@ tr.shown td.details-control {
 				    </thead>
 					<tfoot>
 				        <tr>
-				            <th></th>
-				            <th></th>
 				            <th></th>
 				            <th></th>
 				            <th></th>
@@ -101,7 +97,7 @@ function fetchRecords(){
 		table.destroy();
 
 	    var table = $('#table_id').DataTable( {
-				"order": [['0', 'asc'],['2', 'asc'],['4', 'desc']],
+				"order": [['0', 'asc'],['1', 'asc'],['2', 'desc']],
 				// "bPaginate": false,
 				// "processing": true,	
 				dom: 'Bfrtip',
@@ -152,7 +148,7 @@ function fetchRecords(){
 		            var column = this;
 		            x++;
 		            console.log(x)
-		            if(x != 4 && x != 2 && x != 8){
+		            if(x != 6){
 		            var select = $('<select><option value=""></option></select>')
 		                .appendTo( $(column.footer()).empty() )
 		                .on( 'change', function () {

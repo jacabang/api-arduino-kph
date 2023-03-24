@@ -153,10 +153,10 @@ class RecordController extends Controller
 
             $data[] = array(
                 $result->socket->device->device_name,
-                $result->socket->device->device_code,
+                // $result->socket->device->device_code,
                 $result->socket->socket_name,
-                $result->socket->socket_code,
-                $result->treg,
+                // $result->socket->socket_code,
+                date("M d, Y", strtotime($result->treg)),
                 $result->variance_kwh,
                 $result->kwh,
                 $action
