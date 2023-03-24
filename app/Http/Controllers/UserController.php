@@ -169,7 +169,7 @@ class UserController extends Controller
         $image_file = 'noprof.png';
 
         if($query->image_file != ""):
-            $image_path = public_path()."/uploads/".$query->image_file;
+            $image_path = base_path()."/uploads/".$query->image_file;
             if(!file_exists($image_path)):
                 $image_file = 'noprof.png';
             else:
@@ -318,7 +318,7 @@ class UserController extends Controller
         $image_file = 'noprof.png';
 
         if($query->image_file != ""):
-            $image_path = public_path()."/uploads/".$query->image_file;
+            $image_path = base_path()."/uploads/".$query->image_file;
             if(!file_exists($image_path)):
                 $image_file = 'noprof.png';
             else:

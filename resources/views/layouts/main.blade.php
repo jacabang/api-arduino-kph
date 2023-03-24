@@ -392,7 +392,7 @@
                     <?php
                     if(Auth::check()):
                       if(Auth::user()->image_file != ""):
-                        $image_path = public_path()."/uploads/".Auth::user()->image_file;
+                        $image_path = base_path()."/uploads/".Auth::user()->image_file;
 
                         if(!file_exists($image_path)):
                             $image_file = 'noprof.png';
