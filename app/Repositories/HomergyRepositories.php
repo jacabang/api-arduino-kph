@@ -302,27 +302,30 @@ class HomergyRepositories
                 endforeach;
             else:
 
-                $date1 = $check->reading->treg;
-                $date2 = $data['date'];
+                if($check->reading != ""):
 
-                $sql = "SELECT TIMESTAMPDIFF(DAY, '{$date1}', '{$date2}') as apart";
+                    $date1 = $check->reading->treg;
+                    $date2 = $data['date'];
 
-                $query = DB::select($sql);
+                    $sql = "SELECT TIMESTAMPDIFF(DAY, '{$date1}', '{$date2}') as apart";
 
-                foreach($query as $result1):
-                    if($result1->apart < 0):
-                        return array(
-                            "data" => $check,
-                            "response" => 404,
-                            "message" => "Date is less than the date latest record"
-                        );
-                    endif;
-                endforeach;
+                    $query = DB::select($sql);
 
-                    // $startTime = Carbon::parse($check->reading->treg);
-                    // $finishTime = Carbon::parse($data['date']);
+                    foreach($query as $result1):
+                        if($result1->apart < 0):
+                            return array(
+                                "data" => $check,
+                                "response" => 404,
+                                "message" => "Date is less than the date latest record"
+                            );
+                        endif;
+                    endforeach;
 
-                    // return $totalDuration = $finishTime->diffInDays($startTime);
+                        // $startTime = Carbon::parse($check->reading->treg);
+                        // $finishTime = Carbon::parse($data['date']);
+
+                        // return $totalDuration = $finishTime->diffInDays($startTime);
+                endif;
             endif;
 
             $variance = $data['watts'] - $last_reading;
