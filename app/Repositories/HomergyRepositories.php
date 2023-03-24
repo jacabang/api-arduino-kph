@@ -129,6 +129,62 @@ class HomergyRepositories
         return User::where('id', $id)->first();
     }
 
+    public static function createUser($data, $image_file){
+
+        return User::create([
+            'fullname' => $data['fname'],
+            'email' => $data['email'],
+            'user_group_id' => $data['user_group_id'],
+            'username' => $data['uname'],
+            'contact' => $data['contact'],
+            'password' => bcrypt('123qwe'),
+            'created_by' => Auth::user()->id,
+            'image_file' => $image_file,
+            ]);
+    }
+
+    public static function updateUser($data, $img_file, $id){
+        $check = self::fetchUserViaId($id);
+
+        if($check != ""):
+
+            $check->fullname = $data['fname'];
+            $check->email = $data['email'];
+            if(isset($data['contact'])):
+                $check->contact = $data['contact'];
+            endif;
+
+            if(isset($data['user_group_id'])):
+                $check->user_group_id = $data['user_group_id'];
+            endif;
+
+            $image_path = public_path()."/uploads/".$check->image_file;
+            if($img_file != ""):
+                if($check->image_file != ""):
+                    if (file_exists($image_path)):
+                        unlink($image_path);
+                    endif;
+                endif;
+                $check->image_file = $img_file;
+            else:
+                if($check->image_file == ""):
+                    $check->image_file = $img_file;
+                else:
+                    if(!file_exists($image_path)):
+                        $check->image_file = $img_file;
+                    endif;
+                endif;
+            endif;
+
+            $check->username = $data['uname'];
+
+            $check->save();
+
+        endif;
+
+        return $check;
+    }
+
     public static function fetchDevice(){
         return Device::get();
     }
