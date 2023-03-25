@@ -16,6 +16,7 @@ class AddVarianceKwh extends Migration
         Schema::table('socket_reading', function (Blueprint $table) {
             //
             $table->float('variance_kwh', 15, 4)->after('kwh');
+            $table->float('kwph', 15, 4)->after('variance_kwh');
         });
     }
 

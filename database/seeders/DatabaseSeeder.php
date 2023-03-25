@@ -108,5 +108,11 @@ class DatabaseSeeder extends Seeder
             'created_by' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
+
+        $kwph = DB::table('kwph')->insertGetId([
+            'kwph' => 10.18,
+            'created_by' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
     }
 }
