@@ -69,7 +69,7 @@
           @endif
         </ul>
       </li>
-      @if(isset($access[4]))
+      @if(isset($access[9]))
       <li class="nav-item">
         <a id="kwphSideMenu" class="nav-link" href="{{URL('/kwph')}}" aria-expanded="false">
           <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Kwph</span>
