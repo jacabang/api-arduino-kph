@@ -26,6 +26,7 @@
       </div>
     </div>
     <div class="card-body bg-light">
+    	@if(isset($editable[9]))
 			<form class="form-horizontal" enctype="multipart/form-data" action="{{URL('/')}}/kwph{{$kwph_id != '' ? '/'.$kwph_id : ''}}" method="POST">
 				@if($kwph_id != "")
 				<input type="hidden" name="_method" value="PUT">
@@ -63,6 +64,7 @@
 				</div>
 			</form>
 			<hr>
+			@endif
 			<div class="form-body" style="font-size: 12px;">
 				<table style="width:100%" class="table table-bordered table-striped mb-none" id="table_id">
 					<thead>
