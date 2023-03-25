@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\RecordController;
+use App\Http\Controllers\KwphController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,5 +45,8 @@ Route::resource('/device', DeviceController::class);
 
 Route::post('/fetchRecord', [RecordController::class,'fetchRecord']);
 Route::resource('/records', RecordController::class);
+
+Route::post('/fetchKwph', [KwphController::class,'fetchKwph']);
+Route::resource('/kwph', KwphController::class);
 
 Route::get('/myApi', [DashboardController::class,'myApi']);

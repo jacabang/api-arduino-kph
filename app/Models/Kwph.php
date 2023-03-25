@@ -16,4 +16,8 @@ class Kwph extends Model
         'kwph',
         'created_by'
     ];
+
+    public function creator(){
+        return $this->belongsTo('App\Models\User', 'created_by', 'id')->withTrashed();
+    }
 }

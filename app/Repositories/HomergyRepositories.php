@@ -479,4 +479,25 @@ class HomergyRepositories
         return DeviceSocketReading::where('id', $id)->orderBy('treg','DESC')->first();
     }
 
+    public static function fetchKwph(){
+        return Kwph::withTrashed()->get();
+    }
+
+    public static function fetchKwphNoTrashed(){
+        return Kwph::get();
+    }
+
+    public static function createKwph($data){
+        $check = self::fetchKwphNoTrashed();
+
+        foreach($check as $result):
+            $result->delete();
+        endforeach;
+
+        return Kwph::create([
+            'kwph' => $data['kwph'],
+            'created_by' => Auth::user()->id
+            ]);
+    }
+
 }

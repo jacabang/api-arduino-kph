@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $user_group_id = DB::table('user_group')->insertGetId([
             'user_group' => 'Administrator',
-            'access' => '1,2,3,4,5,6,7',
-            'editable' => '3,4,7',
+            'access' => '1,2,3,4,5,6,7,8,9',
+            'editable' => '3,4,7,8,9',
             'created_at' => date("Y-m-d H:i:s")
         ]);
 
@@ -96,6 +96,14 @@ class DatabaseSeeder extends Seeder
         $access = DB::table('access')->insertGetId([
             'access_name' => 'Records',
             'parent_id' => $access_id,
+            'with_editable' => 1,
+            'created_by' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+
+        $access = DB::table('access')->insertGetId([
+            'access_name' => 'Kph',
+            'parent_id' => 1,
             'with_editable' => 1,
             'created_by' => 1,
             'created_at' => date("Y-m-d H:i:s")

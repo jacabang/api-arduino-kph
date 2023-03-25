@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'HOMERGY | Device')
+@section('title', 'HOMERGY | Records')
 @section('user', 'Admin')
 @section('user_group', 'Administrator')
 @section('menu')

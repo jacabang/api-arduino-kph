@@ -120,13 +120,13 @@
 	      {
 	          extend: 'pageLength', 
 	          className: 'datatable_button',
-	          title: 'Activity List as of {{date('M d, Y')}}'
+	          title: 'User Group List as of {{date('M d, Y')}}'
 	      },
 	      {
 	          extend: 'csv', 
 	          className: 'datatable_button',
 	          text: 'Export',
-	          title: 'Activity List as of {{date('M d, Y')}}',
+	          title: 'User Group List as of {{date('M d, Y')}}',
 	          exportOptions: {
               // columns: ":visible",
               columns: ':not(:last-child)'
