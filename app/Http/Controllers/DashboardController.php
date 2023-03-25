@@ -40,7 +40,8 @@ class DashboardController extends Controller
 
         $user_id = Auth::user()->id;
 
-        $device = count(Home::fetchDevice());
+        $device = Home::fetchDevice();
+        $device = count($device->where('created_by', Auth::user()->id));
 
         $query = DB::select("SELECT a.id, socket_name, device_name, IFNULL(bill,0) as bill FROM (SELECT * FROM `socket` WHERE deleted_at IS NULL  AND created_by = '{$user_id}') as a 
             INNER JOIN (SELECT * FROM device WHERE deleted_at IS NULL AND created_by = '{$user_id}') as b ON a.device_id = b.id
