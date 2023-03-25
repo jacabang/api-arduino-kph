@@ -13,11 +13,11 @@
 @section('style')
 <style>
 td.details-control {
-    background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+    background: url('{{URL('/')}}/assets/images/details_open.png') no-repeat center center;
     cursor: pointer;
 }
 tr.shown td.details-control {
-    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+    background: url('{{URL('/')}}/assets/images/details_close.png') no-repeat center center;
 }
 </style>
 @endsection
@@ -47,7 +47,7 @@ tr.shown td.details-control {
 			<br>
 			<br>
 			<div class="form-body" style="font-size: 12px;">
-				<table style="width:100%" class="table table-bordered table-striped mb-none" id="table_id">
+				<table class="table table-bordered table-striped mb-none" style="width: 100%;" class="table table-bordered table-striped mb-none" id="table_id">
 					<thead>
 				        <tr>
 				            <th></th> 

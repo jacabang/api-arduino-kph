@@ -97,6 +97,11 @@
           min-width: 188px;
           max-width: 188px;
       }
+
+      .table>:not(caption)>*>* {
+        -webkit-box-shadow: none;
+          box-shadow: none;
+      }
     </style>
 
     @yield('style')
