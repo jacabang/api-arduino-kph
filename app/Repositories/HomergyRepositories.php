@@ -450,12 +450,20 @@ class HomergyRepositories
         endif;
     }
 
+    public static function fetchSocketIds(){
+        return DeviceSocket::where('created_by', Auth::user()->id)->get(['id']);
+    }
+
     public static function fetchLatestReading(){
-        return DeviceSocketReading::select([DB::RAW('MAX(treg) as treg'),'socket_id'])->groupBy(['socket_id'])->get();
+        $socket_id = self::fetchSocketIds();
+        return DeviceSocketReading::select([DB::RAW('MAX(treg) as treg'),'socket_id'])->whereIn('socket_id',$socket_id)
+            ->groupBy(['socket_id'])
+            ->get();
     }
 
     public static function fetchReading(){
-        return DeviceSocketReading::orderBy('treg','DESC')->get();
+        $socket_id = self::fetchSocketIds();
+        return DeviceSocketReading::orderBy('treg','DESC')->whereIn('socket_id',$socket_id)->get();
     }
 
     public static function fetchSocketRecordViaId($id){

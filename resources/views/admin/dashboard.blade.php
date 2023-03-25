@@ -201,8 +201,8 @@ function makeSeries(name, fieldName, stacked) {
 
   legend.data.push(series);
 }
-
-@foreach($query as $result)
+<?php $query1 = collect($query); ?>
+@foreach($query1->where('create_by', Auth::user()->id) as $result)
 	makeSeries("{{$result->device_name}} | {{$result->socket_name}}", "{{$result->id}}", true);
 @endforeach
 

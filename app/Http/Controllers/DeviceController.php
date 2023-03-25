@@ -203,7 +203,7 @@ class DeviceController extends Controller
 
         $link = URL('device');
 
-        foreach($query as $result):
+        foreach($query->where('create_by', Auth::user()->id) as $result):
 
             $variance = 0;
 

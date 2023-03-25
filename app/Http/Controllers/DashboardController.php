@@ -40,7 +40,9 @@ class DashboardController extends Controller
 
         $query = DB::select("SELECT a.id, socket_name, device_name FROM (SELECT * FROM `socket` WHERE id IN (SELECT socket_id FROM socket_reading WHERE deleted_at IS NULL) AND deleted_at IS NULL) as a LEFT JOIN (SELECT * FROM device WHERE deleted_at IS NULL) as b ON a.device_id = b.id");
 
-        if(count($query) != 0):
+        $query1 = collect($query);
+
+        if(count($query1->where('create_by', Auth::user()->id)) != 0):
 
             foreach($query as $result):
 
