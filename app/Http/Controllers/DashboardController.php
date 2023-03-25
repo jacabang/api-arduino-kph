@@ -91,12 +91,12 @@ class DashboardController extends Controller
                 
                 if($result1 != 0):
 
-                    if(!isset($data3[$key])):
+                    if(!isset($data3[$key1])):
 
-                        $check4 = Home::fetchDeviceSocketViaId($key);
+                        $check4 = Home::fetchDeviceSocketViaId($key1);
 
                         if($check4 != ""):
-                            $data3[$key] = 1;
+                            $data3[$key1] = 1;
                             $data4[] = $check4;
                         endif;
                     endif;
