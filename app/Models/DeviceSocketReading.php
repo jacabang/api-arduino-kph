@@ -15,6 +15,7 @@ class DeviceSocketReading extends Model
     protected $fillable = [
         'socket_id',
         'kwh',
+        'kwph',
         'variance_kwh',
         'treg'
     ];

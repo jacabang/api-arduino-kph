@@ -215,19 +215,32 @@ class DeviceController extends Controller
                     <th>Socket Name</th>
                     <th>Socket Code</th>
                     <th>Current KHW</th>
+                    <th>Total Bill</th>
                     <th>Last Reading Date</th>
                     </tr>
                 </thead>
                 <tbody>
                 ';
 
+            $total_price = 0;
+
             foreach($result->socket as $result1):
                 $variance += $result1->current_kwh;
                 $last_reading = $result1->reading != '' ? $result1->reading->treg : '';
+
+                $price = 0;
+
+                foreach($result1->readings as $result2):
+                    $price += $result2->kwph * $result2->variance_kwh;
+                endforeach;
+
+                $total_price += $price;
+
                 $order_view .= "<tr>
                     <td>$result1->socket_name</td>
                     <td>$result1->socket_code</td>
                     <td>$result1->current_kwh</td>
+                    <td>$price</td>
                     <td>$last_reading</td>
                     </tr>";
             endforeach;
@@ -256,6 +269,7 @@ class DeviceController extends Controller
                 "device_name"=>$result->device_name,
                 "device_code" => $result->device_code,
                 "current_kwh"=> $result->socket->sum('current_kwh'),
+                "total_price"=> $total_price,
                 "count"=> count($result->socket),
                 "created_at"=>date("M d, Y H:i:s", strtotime($result->created_at)),
                 "created_by"=>$result->creator->fullname."<br>(". $result->creator->email.")",

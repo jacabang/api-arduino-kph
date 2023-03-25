@@ -40,9 +40,18 @@ class DashboardController extends Controller
 
         $user_id = Auth::user()->id;
 
-        $query = DB::select("SELECT a.id, socket_name, device_name FROM (SELECT * FROM `socket` WHERE id IN (SELECT socket_id FROM socket_reading WHERE deleted_at IS NULL) AND deleted_at IS NULL  AND created_by = '{$user_id}') as a INNER JOIN (SELECT * FROM device WHERE deleted_at IS NULL AND created_by = '{$user_id}') as b ON a.device_id = b.id");
+        $device = count(Home::fetchDevice());
+
+        $query = DB::select("SELECT a.id, socket_name, device_name, IFNULL(bill,0) as bill FROM (SELECT * FROM `socket` WHERE deleted_at IS NULL  AND created_by = '{$user_id}') as a 
+            INNER JOIN (SELECT * FROM device WHERE deleted_at IS NULL AND created_by = '{$user_id}') as b ON a.device_id = b.id
+            LEFT JOIN (SELECT socket_id, SUM(kwph * variance_kwh) as bill FROM socket_reading WHERE deleted_at IS NULL GROUP BY socket_id) as c ON a.id = c.socket_id
+
+            ");
 
         $query1 = collect($query);
+
+        $socket = count($query1);
+        $bill = $query1->sum('bill');
 
         if(count($query1) != 0):
 
@@ -67,7 +76,50 @@ class DashboardController extends Controller
 
         endif;
 
-        return view('admin.dashboard', compact('menu','editable','access','query','query1'));
+        $data1 = [];
+
+        $data3 = [];
+        $data4 = [];
+        $data5 = [];
+        $total = 0;
+        $average = 0;
+        foreach($query1 as $key => $result):
+            $data5[$result->year] = 0;
+            $data2 = [];
+            foreach($result as $key1 => $result1):
+                
+                if($result1 != 0):
+
+                    if(!isset($data3[$key])):
+
+                        $check4 = Home::fetchDeviceSocketViaId($key);
+
+                        if($check4 != ""):
+                            $data3[$key] = 1;
+                            $data4[] = $check4;
+                        endif;
+                    endif;
+
+                    if($key1 != 'year'):
+                        $data5[$result->year] += $result1;
+                        $total += $result1;
+                    endif;
+
+                    $data2[$key1] = $result1;
+                endif;
+            endforeach;
+            $data1[] = $data2;
+        endforeach;
+
+        if(count($data5) != 0):
+
+            $average = round($total / count($data5),2);
+
+        endif;
+
+        $query1 = $data1;
+
+        return view('admin.dashboard', compact('menu','editable','access','query','query1','bill','socket','device','data4','average'));
 
     }
 

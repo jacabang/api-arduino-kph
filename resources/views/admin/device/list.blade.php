@@ -55,6 +55,7 @@ tr.shown td.details-control {
 				            <th>Device Code</th>
 				            <th># of Socket</th>
 				            <th>Total Current KHW</th>
+				            <th>Total Billed Amount</th>
 				            <th>Create Date</th>
 				            <th>Created By</th>
 				            @if(isset($editable[7]))
@@ -148,6 +149,8 @@ tr.shown td.details-control {
             	"data": "count"
             },{
             	"data": "current_kwh"
+            },{
+            	"data": "total_price"
             },{
             	"data": "created_at"
             },{

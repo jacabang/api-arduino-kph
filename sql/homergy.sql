@@ -406,6 +406,20 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_group`
   ADD CONSTRAINT `user_group_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+
+CREATE TABLE `kwph`  (
+  `id` int(11) AUTO_INCREMENT,
+  `kwph` float(16, 2) DEFAULT 0,
+  `created_by` bigint(20),
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` datetime,
+  PRIMARY KEY (`id`)
+);
+
+ALTER TABLE `socket_reading` 
+ADD COLUMN `kwph` double(15, 4) DEFAULT 0 AFTER `variance_kwh`;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

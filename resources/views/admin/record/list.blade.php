@@ -50,7 +50,9 @@ tr.shown td.details-control {
 				            <th>Socket Name</th>
 				            <th>Date</th>
 				            <th>Kwh Consumption</th>
+				            <th>Kwph</th>
 				            <th>Total Khw Recorded</th>
+				            <th>Total Bill</th>
 				            @if(isset($editable[8]))
 				            <th>Action</th>
 				            @endif
@@ -58,6 +60,8 @@ tr.shown td.details-control {
 				    </thead>
 					<tfoot>
 				        <tr>
+				            <th></th>
+				            <th></th>
 				            <th></th>
 				            <th></th>
 				            <th></th>
@@ -148,7 +152,7 @@ function fetchRecords(){
 		            var column = this;
 		            x++;
 		            console.log(x)
-		            if(x != 6){
+		            if(x != 7 && x != 8 && x != 6 && x != 4){
 		            var select = $('<select><option value=""></option></select>')
 		                .appendTo( $(column.footer()).empty() )
 		                .on( 'change', function () {

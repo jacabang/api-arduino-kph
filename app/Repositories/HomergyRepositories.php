@@ -15,6 +15,7 @@ use App\Models\UserGroup as UserGroup;
 use App\Models\Device as Device;
 use App\Models\DeviceSocket as DeviceSocket;
 use App\Models\DeviceSocketReading as DeviceSocketReading;
+use App\Models\Kwph as Kwph;
 
 class HomergyRepositories
 {
@@ -246,7 +247,8 @@ class HomergyRepositories
     }
 
     public static function fetchDeviceSocketViaId($socket_id){
-        return DeviceSocket::where('id', $socket_id)->first();
+        return DeviceSocket::with('device')
+            ->where('id', $socket_id)->first();
     }
 
     public static function addDeviceSocket($socket_code, $socket_name, $current_kwh, $device_id){
@@ -331,10 +333,15 @@ class HomergyRepositories
         return DeviceSocket::with('readings')->where('socket_code', $code)->first();
     }
 
+    public static function fetchKwphLatest(){
+        return Kwph::orderBy('created_at','DESC')->first();
+    }
+
     public static function addSocketReading($data){
+        $kwph = self::fetchKwphLatest();
         $check = self::checkDeviceSocketViaCode($data['socketID']);
 
-        if($check != ""):
+        if($check != "" && $kwph != ""):
 
             $last_reading = 0;
 
@@ -380,6 +387,7 @@ class HomergyRepositories
                 else:
                     $variance = $data['watts'] - $check->reading->kwh + $check->reading->variance_kwh;
                     $check->reading->kwh = $data['watts'];
+                    $check->reading->kwph = $kwph->kwph;
                     $check->reading->variance_kwh = $variance;
                     $check->reading->save();
                     $check->current_kwh = $data['watts'];
@@ -425,6 +433,7 @@ class HomergyRepositories
             $reading = DeviceSocketReading::create([
                 'socket_id' => $check->id,
                 'kwh' => $data['watts'],
+                'kwph' => $kwph->kwph,
                 'variance_kwh' => $variance,
                 'treg' => $data['date']
                 ]);

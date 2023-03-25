@@ -158,7 +158,9 @@ class RecordController extends Controller
                 // $result->socket->socket_code,
                 date("M d, Y", strtotime($result->treg)),
                 $result->variance_kwh,
+                $result->kwph,
                 $result->kwh,
+                $result->variance_kwh * $result->kwh,
                 $action
             );
 

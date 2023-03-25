@@ -20,7 +20,29 @@
 @endsection
 
 @section('content')
-		
+<?php
+  function amount_changer($amount){
+
+    $n = $amount;
+    if ($n < 1000) {
+        // Anything less than a million
+        $amount = number_format($n);
+    } else if ($n < 1000000) {
+        // Anything less than a billion
+        $amount = number_format($n / 1000, 2) . 'K';
+    } else if ($n < 1000000000) {
+        // Anything less than a billion
+        $amount = number_format($n / 1000000, 2) . 'M';
+    } else {
+        // At least a billion
+        $amount = number_format($n / 1000000000, 2) . 'B';
+    }
+
+    return $amount;
+
+  }
+
+?>
 <div class="row mb-3">
   <div class="col">
     <div class="card bg-100 shadow-none border">
@@ -47,10 +69,58 @@
     </div>
   </div>
 </div>
+<div class="row mb-3">
+	<div class="col">
+	  <div class="row g-3">
+	    <div class="col-md-4 col-xxl-12">
+	      <div class="card h-100">
+	        <div class="card-body">
+	          <div class="row flex-between-center">
+	            <div class="col d-md-flex d-lg-block flex-between-center">
+	              <h6 class="mb-md-0 mb-lg-2">Device</h6>
+	              <h4 class="fs-3 fw-normal text-700 mb-0">{{$device}}</h4>
+	            </div>
+	            <div class="col-auto">
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="col-md-4 col-xxl-12">
+	      <div class="card h-100">
+	        <div class="card-body">
+	          <div class="row flex-between-center">
+	            <div class="col d-md-flex d-lg-block flex-between-center">
+	              <h6 class="mb-md-0 mb-lg-2">Socket</h6>
+	              <h4 class="fs-3 fw-normal text-700 mb-0">{{$socket}}</h4>
+	            </div>
+	            <div class="col-auto">
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="col-md-4 col-xxl-12">
+	      <div class="card h-100">
+	        <div class="card-body">
+	          <div class="row flex-between-center">
+	            <div class="col d-md-flex d-lg-block flex-between-center">
+	              <h6 class="mb-md-0 mb-lg-2">Total Billed Amount</h6>
+	              <h4 class="fs-3 fw-normal text-700 mb-0">{{amount_changer($bill)}}</h4>
+	            </div>
+	            <div class="col-auto">
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>
 <div class="col-xxl-4">
   <div class="card h-100">
     <div class="card-header d-flex flex-between-center border-bottom py-2">
-      <h6 class="mb-0"></h6><a class="btn btn-link btn-sm px-0 shadow-none" href="{{URL('records')}}">View Details<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
+      <h6 class="mb-0">Average Daily Consumption as of <i>{{date('M d, Y')}}</i> : <b>{{$average}}</b> KWH</h6><a class="btn btn-link btn-sm px-0 shadow-none" href="{{URL('records')}}">View Details<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
     </div>
     <div class="card-body">
       <div id="chartdiv"></div>
@@ -169,8 +239,8 @@ function makeSeries(name, fieldName, stacked) {
   legend.data.push(series);
 }
 <?php $query1 = collect($query); ?>
-@foreach($query1 as $result)
-	makeSeries("{{$result->device_name}} | {{$result->socket_name}}", "{{$result->id}}", true);
+@foreach($data4 as $result)
+	makeSeries("{{$result->device->device_name}} | {{$result->socket_name}}", "{{$result->id}}", true);
 @endforeach
 
 
