@@ -21,75 +21,42 @@
 
 @section('content')
 		
-
-<div class="card mb-3">
-    <div class="card-header">
-      <div class="row flex-between-end">
-        <nav aria-label="breadcrumb">
-		  <ol class="breadcrumb">
-		    <li class="breadcrumb-item"><a href="{{URL('dashboard')}}"><i class="fas fa-home"></i></a></li>
-		    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-		  </ol>
-		</nav>
+<div class="row mb-3">
+  <div class="col">
+    <div class="card bg-100 shadow-none border">
+      <div class="row gx-0 flex-between-center">
+        <div class="col-sm-auto d-flex align-items-center"><img class="ms-n2" src="{{URL('/')}}/assets_admin_v2/img/illustrations/crm-bar-chart.png" alt="" width="90" />
+          <div>
+            <h6 class="text-primary fs--1 mb-0">Welcome </h6>
+            
+            <h4 class="text-primary fw-bold mb-0">{{Auth::user()->fullname}} 
+            @if(Auth::user()->username != "")<span class="text-info fw-medium">({{Auth::user()->username}})</span>@endif</h4>
+          </div><img class="ms-n4 d-md-none d-lg-block" src="../assets/img/illustrations/crm-line-chart.png" alt="" width="150" />
+        </div>
+        <!-- <div class="col-md-auto p-3">
+          <form class="row align-items-center g-3">
+            <div class="col-auto">
+              <h6 class="text-700 mb-0">Showing Data For: </h6>
+            </div>
+            <div class="col-md-auto position-relative">
+              <input class="form-control form-control-sm datetimepicker ps-4" id="CRMDateRange" type="text" data-options="{&quot;mode&quot;:&quot;range&quot;,&quot;dateFormat&quot;:&quot;M d&quot;,&quot;disableMobile&quot;:true , &quot;defaultDate&quot;: [&quot;Sep 12&quot;, &quot;Sep 19&quot;] }" /><span class="fas fa-calendar-alt text-primary position-absolute top-50 translate-middle-y ms-2"> </span>
+            </div>
+          </form>
+        </div> -->
       </div>
     </div>
-    <div class="card-body bg-light">
-      <div class="tab-content">
-        	<div class="form-title">
-        		@if(isset($editable[13]))
-						<!-- <a href="{{URL('/')}}/ads/create" style="float: right;" class="btn btn-primary btn-flat btn-pri"> -->
-							<!-- <i class="fa fa-plus"></i> Add -->
-						<!-- </a> -->
-						@endif
-				</div>
-			<br>
-			<br>
-			<div class="form-body" style="font-size: 12px;">
-				<div class="row">
-					<div class="col-lg-6">
-						<div class="card mb-3">
-						  <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url({{URL('/')}}/assets_admin_v2/img/icons/spot-illustrations/corner-4.png);">
-						  </div> <!--/.bg-holder-->
-						  <div class="card-body position-relative">
-						    <div class="row">
-						      <div class="col-lg-12">
-						      </div>
-						    </div>
-						  </div>
-						</div>
-					</div>
-					<div class="col-lg-6">
-						<div class="card mb-3">
-						  <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url({{URL('/')}}/assets_admin_v2/img/icons/spot-illustrations/corner-4.png);">
-						  </div> <!--/.bg-holder-->
-						  <div class="card-body position-relative">
-						    <div class="row">
-						      <div class="col-lg-12">
-						      </div>
-						    </div>
-						  </div>
-						</div>
-					</div>
-					<div class="col-lg-12">
-						<div class="card mb-3">
-						  <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url({{URL('/')}}/assets_admin_v2/img/icons/spot-illustrations/corner-4.png);">
-						  </div> <!--/.bg-holder-->
-						  <div class="card-body position-relative">
-						    <div class="row">
-						      <div class="col-lg-12">
-						        <h3></h3>
-						        <div id="chartdiv"></div>
-						      </div>
-						    </div>
-						  </div>
-						</div>
-					</div>
-				</div>
-			</div>
-      	</div>
-    </div>
+  </div>
 </div>
-
+<div class="col-xxl-4">
+  <div class="card h-100">
+    <div class="card-header d-flex flex-between-center border-bottom py-2">
+      <h6 class="mb-0"></h6><a class="btn btn-link btn-sm px-0 shadow-none" href="{{URL('records')}}">View Details<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
+    </div>
+    <div class="card-body">
+      <div id="chartdiv"></div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('page-script')
@@ -202,7 +169,7 @@ function makeSeries(name, fieldName, stacked) {
   legend.data.push(series);
 }
 <?php $query1 = collect($query); ?>
-@foreach($query1->where('create_by', Auth::user()->id) as $result)
+@foreach($query1 as $result)
 	makeSeries("{{$result->device_name}} | {{$result->socket_name}}", "{{$result->id}}", true);
 @endforeach
 

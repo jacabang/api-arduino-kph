@@ -38,13 +38,15 @@ class DashboardController extends Controller
 
         $query1 = [];
 
-        $query = DB::select("SELECT a.id, socket_name, device_name FROM (SELECT * FROM `socket` WHERE id IN (SELECT socket_id FROM socket_reading WHERE deleted_at IS NULL) AND deleted_at IS NULL) as a LEFT JOIN (SELECT * FROM device WHERE deleted_at IS NULL) as b ON a.device_id = b.id");
+        $user_id = Auth::user()->id;
+
+        $query = DB::select("SELECT a.id, socket_name, device_name FROM (SELECT * FROM `socket` WHERE id IN (SELECT socket_id FROM socket_reading WHERE deleted_at IS NULL) AND deleted_at IS NULL  AND created_by = '{$user_id}') as a INNER JOIN (SELECT * FROM device WHERE deleted_at IS NULL AND created_by = '{$user_id}') as b ON a.device_id = b.id");
 
         $query1 = collect($query);
 
-        if(count($query1->where('create_by', Auth::user()->id)) != 0):
+        if(count($query1) != 0):
 
-            foreach($query as $result):
+            foreach($query1 as $result):
 
                 $string = "SUM(CASE WHEN socket_id = {$result->id} THEN variance_kwh ELSE 0 END) as `{$result->id}`";
                 array_push($select_array,$string);
@@ -57,7 +59,7 @@ class DashboardController extends Controller
                 SELECT 
                     {$select} 
                 FROM
-                    (SELECT treg, socket_id, variance_kwh FROM socket_reading WHERE deleted_at IS NULL) as a
+                    (SELECT treg, socket_id, variance_kwh FROM socket_reading WHERE deleted_at IS NULL ) as a
 
                 GROUP BY `year` ORDER BY `year` ";
 
