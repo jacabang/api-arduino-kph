@@ -390,15 +390,24 @@ class HomergyRepositories
                     $check->reading->kwh = $data['watts'];
                     $check->reading->kwph = $kwph->kwph;
                     $check->reading->variance_kwh = $variance;
-                    $check->reading->save();
                     $check->current_kwh = $data['watts'];
-                    $check->save();
 
-                    return array(
-                        "data" => $check->reading,
-                        "response" => 404,
-                        "message" => 'Reading for '.date('F d, Y', strtotime($check->reading->treg)).' has been updated'
-                    );
+                    if($variance != 0):
+                        $check->reading->save();
+                        $check->save();
+
+                        return array(
+                            "data" => $check->reading,
+                            "response" => 404,
+                            "message" => 'Reading for '.date('F d, Y', strtotime($check->reading->treg)).' has been updated'
+                        );
+                    else:
+                        return array(
+                            "data" => $check,
+                            "response" => 404,
+                            "message" => "Data Invalid"
+                        );
+                    endif;
                 endif;
                 
             else:
@@ -440,16 +449,32 @@ class HomergyRepositories
                 endif;
             endif;
 
-            $reading = DeviceSocketReading::create([
-                'socket_id' => $check->id,
-                'kwh' => $data['watts'],
-                'kwph' => $kwph->kwph,
-                'variance_kwh' => $variance,
-                'treg' => $data['date']
-                ]);
+            if($variance != 0):
 
-            $check->current_kwh = $data['watts'];
-            $check->save();
+                $reading = DeviceSocketReading::create([
+                    'socket_id' => $check->id,
+                    'kwh' => $data['watts'],
+                    'kwph' => $kwph->kwph,
+                    'variance_kwh' => $variance,
+                    'treg' => $data['date']
+                    ]);
+
+                $check->current_kwh = $data['watts'];
+                $check->save();
+
+            else:
+                return array(
+                    "data" => [
+                        'socket_id' => $check->id,
+                        'kwh' => $data['watts'],
+                        'kwph' => $kwph->kwph,
+                        'variance_kwh' => $variance,
+                        'treg' => $data['date']
+                    ],
+                    "response" => 404,
+                    "message" => "Data invalid"
+                );
+            endif;
 
             return array(
                 "data" => $reading,
