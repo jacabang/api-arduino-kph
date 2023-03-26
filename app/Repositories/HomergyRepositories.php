@@ -339,6 +339,7 @@ class HomergyRepositories
 
     public static function addSocketReading($data){
         $kwph = self::fetchKwphLatest();
+        $kwphs = self::fetchKwph();
         $check = self::checkDeviceSocketViaCode($data['socketID']);
 
         if($check != "" && $kwph != ""):
@@ -429,6 +430,15 @@ class HomergyRepositories
             endif;
 
             $variance = $data['watts'] - $last_reading;
+
+            if($data['date'] < date("Y-m-d", strtotime($kwph->created_at))):
+                if(count($kwphs->where('created_at','<=',$data['date'])) == 0):
+                    $kwph = Kwph::where(DB::RAW("DATE(created_at)"),'>=', $data['date'])->orderBy('created_at','ASC')->withTrashed()->first();
+                else:
+
+                    $kwph = Kwph::where(DB::RAW("DATE(created_at)"),'<=', $data['date'])->orderBy('created_at','ASC')->withTrashed()->first();
+                endif;
+            endif;
 
             $reading = DeviceSocketReading::create([
                 'socket_id' => $check->id,
