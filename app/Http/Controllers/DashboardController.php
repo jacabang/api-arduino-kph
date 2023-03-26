@@ -120,8 +120,6 @@ class DashboardController extends Controller
 
         $query1 = $data1;
 
-        return $query1;
-
         return view('admin.dashboard', compact('menu','editable','access','query','query1','bill','socket','device','data4','average'));
 
     }
