@@ -109,7 +109,10 @@ class DashboardController extends Controller
                     $data2[$key1] = $result1;
                 endif;
             endforeach;
-            $data1[] = $data2;
+
+            if(count($data2) > 1):
+                $data1[] = $data2;
+            endif;
         endforeach;
 
         if(count($data5) != 0):
