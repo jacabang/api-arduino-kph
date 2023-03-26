@@ -160,7 +160,7 @@ class RecordController extends Controller
                 $result->variance_kwh,
                 $result->kwph,
                 $result->kwh,
-                $result->variance_kwh * $result->kwh,
+                $result->variance_kwh * $result->kwph,
                 $action
             );
 
