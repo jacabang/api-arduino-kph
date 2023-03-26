@@ -33,8 +33,10 @@ class DashboardController extends Controller
         $access = array_flip(explode(",", $user_group->access));
 
         $select = "treg as `year`, ";
+        $select1 = "CONCAT(YEAR(`year`),'-',LPAD(MONTH(`year`),2,0)) as `year`, ";
 
         $select_array = array();
+        $select_array1 = array();
 
         $query1 = [];
 
@@ -59,19 +61,24 @@ class DashboardController extends Controller
             foreach($query1 as $result):
 
                 $string = "SUM(CASE WHEN socket_id = {$result->id} THEN variance_kwh ELSE 0 END) as `{$result->id}`";
+
+                $string1 = "SUM(`{$result->id}`) as `{$result->id}`";
                 array_push($select_array,$string);
+                array_push($select_array1,$string1);
 
             endforeach;
 
             $select .= implode(", ",$select_array);
+            $select1 .= implode(", ",$select_array1);
 
             $sql = "
-                SELECT 
+                SELECT {$select1} FROM
+                (SELECT 
                     {$select} 
                 FROM
                     (SELECT treg, socket_id, variance_kwh FROM socket_reading WHERE deleted_at IS NULL ) as a
 
-                GROUP BY `year` ORDER BY `year` ";
+                GROUP BY `year` ORDER BY `year`) as a GROUP BY CONCAT(YEAR(`year`),'-',LPAD(MONTH(`year`),2,0))";
 
             $query1 = DB::select(DB::RAW($sql));
 
@@ -104,9 +111,10 @@ class DashboardController extends Controller
                     if($key1 != 'year'):
                         $data5[$result->year] += $result1;
                         $total += $result1;
+                        $data2[$key1] = $result1;
+                    else:
+                        $data2[$key1] = date("M Y", strtotime($result1.'-11'));
                     endif;
-
-                    $data2[$key1] = $result1;
                 endif;
             endforeach;
 
